@@ -11,16 +11,36 @@
 @implementation Compression
 
 - (instancetype)init {
-    self.exportPresets = @{
-                          @"640x480": AVAssetExportPreset640x480,
-                          @"960x540": AVAssetExportPreset960x540,
-                          @"1280x720": AVAssetExportPreset1280x720,
-                          @"1920x1080": AVAssetExportPreset1920x1080,
-                          @"3840x2160": AVAssetExportPreset3840x2160,
-                          @"LowQuality": AVAssetExportPresetLowQuality,
-                          @"MediumQuality": AVAssetExportPresetMediumQuality,
-                          @"HighestQuality": AVAssetExportPresetHighestQuality,
-                          };
+    
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
+        
+        self.exportPresets = @{
+                               @"640x480": AVAssetExportPreset640x480,
+                               @"960x540": AVAssetExportPreset960x540,
+                               @"1280x720": AVAssetExportPreset1280x720,
+                               @"1920x1080": AVAssetExportPreset1920x1080,
+                               @"3840x2160": AVAssetExportPreset3840x2160,
+                               @"LowQuality": AVAssetExportPresetLowQuality,
+                               @"MediumQuality": AVAssetExportPresetMediumQuality,
+                               @"HighestQuality": AVAssetExportPresetHighestQuality,
+                               };
+        
+    }else{
+        
+        self.exportPresets = @{
+                               @"640x480": AVAssetExportPreset640x480,
+                               @"960x540": AVAssetExportPreset960x540,
+                               @"1280x720": AVAssetExportPreset1280x720,
+                               @"1920x1080": AVAssetExportPreset1920x1080,
+                               @"LowQuality": AVAssetExportPresetLowQuality,
+                               @"MediumQuality": AVAssetExportPresetMediumQuality,
+                               @"HighestQuality": AVAssetExportPresetHighestQuality,
+                               };
+        
+    }
+    
+    
     
     return self;
 }
@@ -74,9 +94,9 @@
 }
 
 - (void)compressVideo:(NSURL*)inputURL
-                    outputURL:(NSURL*)outputURL
-                    withOptions:(NSDictionary*)options
-                    handler:(void (^)(AVAssetExportSession*))handler {
+            outputURL:(NSURL*)outputURL
+          withOptions:(NSDictionary*)options
+              handler:(void (^)(AVAssetExportSession*))handler {
     
     NSString *presetKey = [options valueForKey:@"compressVideoPreset"];
     if (presetKey == nil) {
